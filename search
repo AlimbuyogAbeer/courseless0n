@@ -1,0 +1,52 @@
+<!-- Search Container -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <!-- Search Bar -->
+          <div class="input-group" style="max-width: 300px;">
+            <input type="text" class="form-control" id="courseSearch" placeholder="Search..." />
+            <button id="searchBtn" class="btn custom-green-btn">
+              <i class="bi bi-search me-1"></i> Search
+            </button>
+          </div>            
+      </div>
+    </div>
+  </nav>
+  
+ <div id="course-container" class="mt-4"></div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="noTitleModal" tabindex="-1" aria-labelledby="noTitleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title" id="noTitleModalLabel">No Title Found</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Sorry, no courses matched your search.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('searchBtn').addEventListener('click', function () {
+  const keyword = document.getElementById('courseSearch').value.trim().toLowerCase();
+  const allCourses = JSON.parse(localStorage.getItem('courses')) || [];
+
+  const hasMatch = allCourses.some(course =>
+    course.title.toLowerCase().includes(keyword) ||
+    course.description.toLowerCase().includes(keyword)
+  );
+
+  if (hasMatch) {
+    // Redirect to courses.html with search query
+    window.location.href = `courses.html?search=${encodeURIComponent(keyword)}`;
+  } else {
+    const modal = new bootstrap.Modal(document.getElementById('noTitleModal'));
+    modal.show();
+  }
+});
+</script>
